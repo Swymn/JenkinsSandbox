@@ -5,28 +5,33 @@ pipeline {
         string(name: 'branch', defaultValue: 'main', description: 'Branch to build')
     }
 
-    triggers {
-        cron('0 3 * * 1-5')
-    }
-
     environment {
         SENTENCE = 'I hope your borther\'s El Camino runs forever'
     }
 
     stages {
+        stage('Static Analysis') {
+            steps {
+                echo 'Running static analysis...'
+                sleep time: 3, unit: 'SECONDS'
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Build the project...'
+                sleep time: 3, unit: 'SECONDS'
+            }
+        }
+        stage('Unit Testing') {
+            steps {
+                echo 'Testing the project...'
+                sleep time: 3, unit: 'SECONDS'
             }
         }
         stage('Package') {
-            when {
-                expression {
-                    return params.branch == 'release'
-                }
-            }
             steps {
                 echo 'Packing the code...'
+                sleep time: 3, unit: 'SECONDS'
             }
         }
     }
