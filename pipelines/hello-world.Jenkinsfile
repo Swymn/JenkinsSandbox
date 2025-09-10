@@ -10,14 +10,19 @@ pipeline {
     }
 
     stages {
-        stage('SCM Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/Swymn/JenkinsSandbox.git'
-            }
-        }
         stage('Build') {
             steps {
                 echo 'Build the project...'
+            }
+        }
+        stage('Package') {
+            when {
+                expression {
+                    return params.branch == 'release'
+                }
+            }
+            steps {
+                echo 'Packing the code...'
             }
         }
     }
