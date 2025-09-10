@@ -1,22 +1,23 @@
 pipeline {
     agent any
 
+    triggers {
+        cron('0 3 * * 1-5')
+    }
+
     environment {
         SENTENCE = 'I hope your borther\'s El Camino runs forever'
     }
 
     stages {
-        stage('Hello') {
+        stage('SCM Checkout') {
             steps {
-                echo 'Hello World!'
-
-                script {
-                    def words = env.SENTENCE.split(' ')
-
-                    for (word in words) {
-                        echo word
-                    }
-                }
+                git branch: 'main', url: 'https://github.com/Swymn/JenkinsSandbox.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Build the project...'
             }
         }
     }
